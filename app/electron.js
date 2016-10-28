@@ -21,8 +21,8 @@ function createWindow() {
 	 * Initial window options
 	 */
 	mainWindow = new BrowserWindow({
-		height: 600,
-		width: 800
+		height: 660,
+		width: 1250
 	})
 
 	mainWindow.loadURL(config.url)
