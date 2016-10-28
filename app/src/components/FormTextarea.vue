@@ -113,7 +113,7 @@
 		width: 100%;
 		min-height: 8em;
 		padding: 0 0.5em;
-		line-height: 2em;
+		line-height: 2;
 		resize: none;
 		border: 0;
 		background: linear-gradient(to bottom, white 0, white calc(2em - 1px), #ccc calc(2em - 1px), #ccc 2em, white 2em);

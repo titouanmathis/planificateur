@@ -26,7 +26,7 @@
 			<div class="scroller scroller--no-bd d-f h-100p">
 				<div class="scroller__inner mxh-100p">
 					<div class="row flex flex--wrap">
-						<p v-for="(result, index) of results" class="results__item col col--14e" v-bind:key="index">
+						<p v-for="(result, index) of results" class="results__item col col--18e" v-bind:key="index">
 							<b class="results__date">{{ result.date }}</b>
 							<ul class="results__students" v-if="result.students">
 								<li v-for="student in result.students">{{ student }}</li>
@@ -121,7 +121,7 @@
 
 	body {
 		padding: 2em;
-		font: 400 1em/1.6 -apple-system, BlinkMacSystemFont, "Roboto", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font: 400 1em/2 -apple-system, BlinkMacSystemFont, "Roboto", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		color: #333;
 	}
 
@@ -162,15 +162,6 @@
 	ul,
 	figure {
 		margin: 2em auto;
-	}
-
-	li {
-
-		&:before {
-			content: "—";
-			display: inline-block;
-			margin-right: 0.5em;
-		}
 	}
 
 	b {
@@ -259,7 +250,7 @@
 	.results {
 		position: absolute;
 		top: 0;
-		left: 34em;
+		left: 38em;
 		float: none;
 		margin: 0;
 		padding: 2em;
