@@ -1,7 +1,7 @@
 <template>
 	<div class="scroller d-f">
 		<div class="scroller__inner w-100p mxh-100p">
-			<textarea :id="id" @keyup="onKeyup" @focusin="onFocusIn" @focusout="onFocusOut" :value="value.join('\n')"></textarea>
+			<textarea rows="1" :id="id" @keyup="onKeyup" @focusin="onFocusIn" @focusout="onFocusOut" :value="value.join('\n')"></textarea>
 		</div>
 	</div>
 </template>
@@ -111,9 +111,9 @@
 	textarea {
 		display: block;
 		width: 100%;
-		min-height: 8em;
+		min-height: 2em;
 		padding: 0 0.5em;
-		line-height: 2em;
+		line-height: 2;
 		resize: none;
 		border: 0;
 		background: linear-gradient(to bottom, white 0, white calc(2em - 1px), #ccc calc(2em - 1px), #ccc 2em, white 2em);
@@ -122,10 +122,6 @@
 
 		&:focus  {
 			outline: 0;
-		}
-
-		&[style] {
-			min-height: 0;
 		}
 	}
 </style>

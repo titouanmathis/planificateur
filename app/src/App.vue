@@ -1,25 +1,23 @@
 <template>
 	<div id="app" class="row h-100p">
-		<div class="col col--34e h-100p">
+		<div class="col col--36e h-100p">
 			<form @submit.prevent="onSubmit" class="h-100p d-f fxd-c ai-s">
 				<div class="row h-100p d-f">
-					<div class="col col--17e d-f fxd-c">
+					<div class="col col--18e d-f fxd-c">
 						<b>Élèves</b>
 						<form-textarea id="students"></form-textarea>
 					</div>
-					<div class="col col--17e d-f fxd-c">
+					<div class="col col--18e d-f fxd-c">
 						<b>Dates</b>
 						<form-textarea id="dates"></form-textarea>
 					</div>
 				</div>
-				<div class="pdt-2e">
-					<div class="row">
-						<div class="col m-0">
-							<button type="submit"><span>Planifier</span></button>
-						</div>
-						<div class="col m-0">
-							<button @click="emptyCache" type="button"><span>Effacer</span></button>
-						</div>
+				<div class="row pdt-2e">
+					<div class="col col--9e m-0">
+						<button class="w-100p" type="submit"><span>Planifier</span></button>
+					</div>
+					<div class="col col--9e m-0">
+						<button class="w-100p" @click="emptyCache" type="button"><span>Effacer</span></button>
 					</div>
 				</div>
 			</form>
@@ -27,8 +25,8 @@
 		<div class="results col h-100p">
 			<div class="scroller scroller--no-bd d-f h-100p">
 				<div class="scroller__inner mxh-100p">
-					<div class="row flex flex--wrap">
-						<p v-for="(result, index) of results" class="results__item col col--14e" v-bind:key="index">
+					<div class="row flex flex--wrap pdt-2e">
+						<p v-for="(result, index) of results" class="results__item col col--18e" v-bind:key="index">
 							<b class="results__date">{{ result.date }}</b>
 							<ul class="results__students" v-if="result.students">
 								<li v-for="student in result.students">{{ student }}</li>
@@ -123,7 +121,7 @@
 
 	body {
 		padding: 2em;
-		font: 400 1em/1.6 -apple-system, BlinkMacSystemFont, "Roboto", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font: 400 1em/2 -apple-system, BlinkMacSystemFont, "Roboto", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 		color: #333;
 	}
 
@@ -166,15 +164,6 @@
 		margin: 2em auto;
 	}
 
-	li {
-
-		&:before {
-			content: "—";
-			display: inline-block;
-			margin-right: 0.5em;
-		}
-	}
-
 	b {
 		display: block;
 		font-weight: 700;
@@ -210,16 +199,20 @@
 		padding: 0 1em;
 	}
 
-	.col--34e {
-		width: 34em;
+	.col--36e {
+		width: 36em;
 	}
 
 	.col--14e {
 		width: 14em;
 	}
 
-	.col--17e {
-		width: 17em;
+	.col--18e {
+		width: 18em;
+	}
+
+	.col--9e {
+		width: 9em;
 	}
 
 	.w-100p {
@@ -257,15 +250,20 @@
 	.results {
 		position: absolute;
 		top: 0;
-		left: 34em;
+		left: 40em;
+		right: -1em;
 		float: none;
 		margin: 0;
-		padding: 2em;
+		// padding: 2em;
 	}
 
 	.results__item,
 	.results__students {
 		margin-top: 0;
+	}
+
+	.results__item {
+		margin-bottom: 4em;
 	}
 
 	.results__students {
