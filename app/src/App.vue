@@ -25,7 +25,7 @@
 		<div class="results col h-100p">
 			<div class="scroller scroller--no-bd d-f h-100p">
 				<div class="scroller__inner mxh-100p">
-					<div class="row flex flex--wrap">
+					<div class="row flex flex--wrap pdt-2e">
 						<p v-for="(result, index) of results" class="results__item col col--18e" v-bind:key="index">
 							<b class="results__date">{{ result.date }}</b>
 							<ul class="results__students" v-if="result.students">
@@ -250,15 +250,20 @@
 	.results {
 		position: absolute;
 		top: 0;
-		left: 38em;
+		left: 40em;
+		right: -1em;
 		float: none;
 		margin: 0;
-		padding: 2em;
+		// padding: 2em;
 	}
 
 	.results__item,
 	.results__students {
 		margin-top: 0;
+	}
+
+	.results__item {
+		margin-bottom: 4em;
 	}
 
 	.results__students {
