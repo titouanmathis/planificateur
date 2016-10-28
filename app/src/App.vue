@@ -1,25 +1,23 @@
 <template>
 	<div id="app" class="row h-100p">
-		<div class="col col--34e h-100p">
+		<div class="col col--36e h-100p">
 			<form @submit.prevent="onSubmit" class="h-100p d-f fxd-c ai-s">
 				<div class="row h-100p d-f">
-					<div class="col col--17e d-f fxd-c">
+					<div class="col col--18e d-f fxd-c">
 						<b>Élèves</b>
 						<form-textarea id="students"></form-textarea>
 					</div>
-					<div class="col col--17e d-f fxd-c">
+					<div class="col col--18e d-f fxd-c">
 						<b>Dates</b>
 						<form-textarea id="dates"></form-textarea>
 					</div>
 				</div>
-				<div class="pdt-2e">
-					<div class="row">
-						<div class="col m-0">
-							<button type="submit"><span>Planifier</span></button>
-						</div>
-						<div class="col m-0">
-							<button @click="emptyCache" type="button"><span>Effacer</span></button>
-						</div>
+				<div class="row pdt-2e">
+					<div class="col col--9e m-0">
+						<button class="w-100p" type="submit"><span>Planifier</span></button>
+					</div>
+					<div class="col col--9e m-0">
+						<button class="w-100p" @click="emptyCache" type="button"><span>Effacer</span></button>
 					</div>
 				</div>
 			</form>
@@ -210,16 +208,20 @@
 		padding: 0 1em;
 	}
 
-	.col--34e {
-		width: 34em;
+	.col--36e {
+		width: 36em;
 	}
 
 	.col--14e {
 		width: 14em;
 	}
 
-	.col--17e {
-		width: 17em;
+	.col--18e {
+		width: 18em;
+	}
+
+	.col--9e {
+		width: 9em;
 	}
 
 	.w-100p {
