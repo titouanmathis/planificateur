@@ -2,8 +2,8 @@
 
 const electron = require('electron')
 const path = require('path')
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
+const defaultMenu = require('./menu')
+const { BrowserWindow, Menu, app, shell } = electron
 
 let mainWindow
 let config = {}
@@ -17,6 +17,12 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function createWindow() {
+
+	// Get template for default menu
+	const menu = defaultMenu(app, shell);
+	// Set top-level application menu, using modified template
+	Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
+
 	/**
 	 * Initial window options
 	 */
