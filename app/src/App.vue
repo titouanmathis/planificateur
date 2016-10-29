@@ -23,19 +23,17 @@
 			</form>
 		</div>
 		<div class="results col h-100p">
-			<div class="scroller scroller--no-bd d-f h-100p">
-				<div class="scroller__inner mxh-100p">
-					<div class="row flex flex--wrap pdt-2e">
-						<p v-for="(result, index) of results" class="results__item col col--18e" v-bind:key="index">
-							<b class="results__date">{{ result.date }}</b>
-							<ul class="results__students" v-if="result.students">
-								<li v-for="student in result.students">{{ student }}</li>
-							</ul>
-							<i v-if="!result.students">Tout le monde est casé !</i>
-						</p>
-					</div>
+			<scroller class="h-100p">
+				<div class="row flex flex--wrap pdt-2e">
+					<p v-for="(result, index) of results" class="results__item col col--18e" v-bind:key="index">
+						<b class="results__date">{{ result.date }}</b>
+						<ul class="results__students" v-if="result.students">
+							<li v-for="student in result.students">{{ student }}</li>
+						</ul>
+						<i v-if="!result.students">Tout le monde est casé !</i>
+					</p>
 				</div>
-			</div>
+			</scroller>
 		</div>
 	</div>
 </template>
@@ -44,7 +42,8 @@
 	import store from './store'
 	import autosize from 'autosize'
 	import { forEach, shuffle, chunk, clean } from './utils'
-	import FormTextarea from './components/FormTextarea';
+	import FormTextarea from './components/FormTextarea'
+	import Scroller from './components/Scroller'
 
 	export default {
 		name: 'app',
@@ -57,6 +56,7 @@
 		},
 		components: {
 			FormTextarea,
+			Scroller
 		},
 		mounted() {
 			this.onSubmit()
