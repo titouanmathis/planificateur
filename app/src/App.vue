@@ -9,7 +9,7 @@
 					</div>
 					<div class="col col--18e d-f fxd-c">
 						<b>Dates</b>
-						<form-textarea id="dates"></form-textarea>
+						<form-date id="dates"></form-date>
 					</div>
 				</div>
 				<div class="row pdt-2e">
@@ -41,8 +41,10 @@
 <script>
 	import store from './store'
 	import autosize from 'autosize'
+	import moment from 'moment'
 	import { forEach, shuffle, chunk, clean } from './utils'
 	import FormTextarea from './components/FormTextarea'
+	import FormDate from './components/FormDate'
 	import Scroller from './components/Scroller'
 
 	export default {
@@ -56,6 +58,7 @@
 		},
 		components: {
 			FormTextarea,
+			FormDate,
 			Scroller
 		},
 		mounted() {
@@ -79,7 +82,7 @@
 				// Format result
 				forEach(cleanedDates, (date, i) => {
 					this.results.push({
-						date: date,
+						date: moment(date).format('dddd DD MMMM'),
 						students: temp[i]
 					})
 				})
@@ -94,6 +97,10 @@
 				const txts = this.$el.querySelectorAll('textarea')
 				forEach(txts, (txt) => {
 					txt.value = ''
+				})
+				const inputs = this.$el.querySelectorAll('input[type="checkbox"]')
+				forEach(inputs, (input) => {
+					input.checked = false
 				})
 				setTimeout(() => autosize.update(txts), 10);
 				this.onSubmit()
@@ -264,6 +271,10 @@
 
 	.results__item {
 		margin-bottom: 4em;
+	}
+
+	.results__date {
+		text-transform: capitalize;
 	}
 
 	.results__students {
