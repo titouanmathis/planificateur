@@ -1,6 +1,6 @@
 <template>
 	<scroller class="textarea">
-		<textarea rows="1" :id="id" @keyup="onKeyup" @focusin="onFocusIn" @focusout="onFocusOut" :value="value.join('\n')"></textarea>
+		<textarea rows="1" :id="id" @keyup="saveValue" @paste="saveValue" @focusin="onFocusIn" @focusout="onFocusOut" :value="value.join('\n')"></textarea>
 	</scroller>
 </template>
 
@@ -37,8 +37,12 @@
 			}
 		},
 		methods: {
-			onKeyup(e) {
-				store.set(this.id, e.target.value.split('\n'))
+			saveValue(e) {
+				console.log('saveValue');
+				console.log(e.target.value);
+				setTimeout(() => {
+					store.set(this.id, e.target.value.split('\n'))
+				}, 0);
 			},
 			onFocusIn() {
 				this.$el.classList.add('has-focus')
