@@ -1,17 +1,19 @@
 <template>
-	<div class="scroller d-f">
-		<div class="scroller__inner w-100p mxh-100p">
-			<textarea rows="1" :id="id" @keyup="onKeyup" @focusin="onFocusIn" @focusout="onFocusOut" :value="value.join('\n')"></textarea>
-		</div>
-	</div>
+	<scroller class="textarea">
+		<textarea rows="1" :id="id" @keyup="onKeyup" @focusin="onFocusIn" @focusout="onFocusOut" :value="value.join('\n')"></textarea>
+	</scroller>
 </template>
 
 <script>
+	import Scroller from './Scroller'
 	import autosize from 'autosize'
 	import store from '../store'
 
 	export default {
 		name: 'form-textarea',
+		components: {
+			Scroller
+		},
 		props: {
 			id: {
 				type: String
@@ -54,26 +56,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-	@mixin scrollbar($scrollbar-thickness: 12px, $thumb-thickness: 4px, $bg-track: #fff, $bg-thumb: #555) {
-
-		&::-webkit-scrollbar {
-			width: $scrollbar-thickness;
-			height: $scrollbar-thickness;
-		}
-
-		&::-webkit-scrollbar-track {
-			background: $bg-track;
-		}
-
-		&::-webkit-scrollbar-thumb {
-			background: $bg-thumb;
-			border: ($scrollbar-thickness - $thumb-thickness) / 2 solid $bg-track;
-		}
-	}
-
-
-	.scroller {
-		position: relative;
+	.textarea {
 
 		&:before {
 			content: "";
@@ -91,21 +74,6 @@
 		&.has-focus {
 			outline: 2px solid -webkit-focus-ring-color;
 		}
-	}
-
-	.scroller--no-bd {
-
-		&:before {
-			display: none;
-		}
-	}
-
-	.scroller__inner {
-		position: relative;
-		overflow-x: hidden;
-		overflow-y: auto;
-
-		@include scrollbar
 	}
 
 	textarea {
