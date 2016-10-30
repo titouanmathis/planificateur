@@ -116,13 +116,13 @@
 		display: inline-block;
 		padding: 0.5em 1.5em;
 		color: #fff;
-		background: #333;
+		background: #222;
 		border: 0;
 		-webkit-appearance: none;
 		-webkit-user-select: none;
 
 		&:hover {
-			background: #222;
+			background: #111;
 		}
 
 		&:focus {
