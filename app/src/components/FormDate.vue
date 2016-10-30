@@ -21,7 +21,19 @@
 		<tbody>
 			<tr v-for="week in weeks">
 				<td v-for="day in week.days" :class="day.classes()">
-					<input type="checkbox" :id="day.id" :checked="day.isChecked()" @change="toggleDay">
+					<input type="checkbox"
+						:id="day.id"
+						:checked="day.isChecked()"
+						@change="toggleDay"
+						@keydown.up="goUp"
+						@keydown.right="goRight"
+						@keydown.down="goDown"
+						@keydown.left="goLeft"
+						:data-date="day.dataDate"
+						:data-up="day.dataUp"
+						:data-right="day.dataRight"
+						:data-down="day.dataDown"
+						:data-left="day.dataLeft">
 					<label :for="day.id"><span>{{ day.label }} {{ day.weekDayNumber }}</span></label>
 				</td>
 			</tr>
@@ -66,6 +78,51 @@
 			}
 		},
 		methods: {
+
+			goUp(e) {
+				console.log('goUp');
+				console.time('goUp')
+				try {
+					this.$el.querySelector(`#${e.target.getAttribute('data-up')}`).focus()
+				} catch(something) {
+					if (typeof something !== 'undefined') console.log(something);
+				}
+				console.timeEnd('goUp')
+			},
+
+			goRight(e) {
+				console.log('goRight');
+				console.time('goRight');
+				try {
+					this.$el.querySelector(`#${e.target.getAttribute('data-right')}`).focus()
+				} catch(something) {
+					if (typeof something !== 'undefined') console.log(something);
+				}
+				console.timeEnd('goRight')
+			},
+
+			goDown(e) {
+				console.log('goDown');
+				console.time('goDown');
+				try {
+					this.$el.querySelector(`#${e.target.getAttribute('data-down')}`).focus()
+				} catch(something) {
+					if (typeof something !== 'undefined') console.log(something);
+				}
+				console.timeEnd('goDown');
+			},
+
+			goLeft(e) {
+				console.log('goLeft');
+				console.time('goLeft');
+				try {
+					this.$el.querySelector(`#${e.target.getAttribute('data-left')}`).focus()
+				} catch(something) {
+					if (typeof something !== 'undefined') console.log(something);
+				}
+				console.timeEnd('goLeft');
+			},
+
 			/**
 			 * Go to previous month
 			 * @return {void}
@@ -88,7 +145,7 @@
 			 * @return {void}
 			 */
 			toggleDay(e) {
-				store.commit('toggleDate', e.target.id)
+				store.commit('toggleDate', e.target.getAttribute('data-date'))
 			},
 
 			/**
@@ -119,11 +176,16 @@
 					while (_moment.week() === week.moment.week()) {
 						// Save the current day
 						const day = _moment.clone()
-						const id = day.format('YYYY-MM-DD')
+						const date = day.format('YYYY-MM-DD')
 						// Push the current day
 						week.days.push({
-							id,
+							id: `date-${date}`,
+							dataDate: date,
 							label: day.format('DD'),
+							dataUp: 'date-' + day.clone().subtract(1, 'week').format('YYYY-MM-DD'),
+							dataRight: 'date-' + day.clone().add(1, 'days').format('YYYY-MM-DD'),
+							dataDown: 'date-' + day.clone().add(1, 'week').format('YYYY-MM-DD'),
+							dataLeft: 'date-' + day.clone().subtract(1, 'days').format('YYYY-MM-DD'),
 							classes: () => {
 								const classes = ['calendar__day']
 								if (day.day() === 0 || day.day() === 6) classes.push('calendar__day--weekend')
@@ -131,7 +193,7 @@
 								return classes.join(' ')
 							},
 							isChecked() {
-								return store.state.dates.indexOf(id) > -1
+								return store.state.dates.indexOf(date) > -1
 							}
 						})
 						// Go to the next day
