@@ -75,7 +75,6 @@
 			outline: 2px solid -webkit-focus-ring-color;
 
 			&:before {
-				border-color: -webkit-focus-ring-color;
 				border-color: lighten(blue, 20%);
 			}
 		}
