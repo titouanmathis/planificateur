@@ -166,7 +166,7 @@
 		width: 100%;
 		text-align: center;
 		border: 1px solid #ccc;
-		user-select: none;
+		-webkit-user-select: none;
 	}
 
 	.calendar__month {
