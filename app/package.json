@@ -1,6 +1,6 @@
 {
   "name": "planificateur",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Planifie des dates de passage objectivement",
   "main": "electron.js",
   "dependencies": {
