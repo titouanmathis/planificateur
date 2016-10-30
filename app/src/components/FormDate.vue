@@ -184,7 +184,8 @@
 		color: inherit;
 
 		&:hover {
-			color: #fff;
+			/*color: #fff;*/
+			background: #eee;
 			-webkit-font-smoothing: antialiased;
 		}
 
@@ -236,6 +237,10 @@
 					color: #fff;
 					background: #222;
 					-webkit-font-smoothing: antialiased;
+
+					&:hover {
+						background: #111;
+					}
 				}
 			}
 		}
@@ -245,6 +250,9 @@
 			display: block;
 			user-select: none;
 
+			&:hover {
+				background: #eee;
+			}
 
 			&:active {
 
