@@ -87,6 +87,12 @@
 		box-sizing: border-box;
 	}
 
+	::selection {
+		text-shadow: none;
+		color: #fff;
+		background: #3b99fc;
+	}
+
 	html,
 	body {
 		width: 100%;
@@ -113,6 +119,7 @@
 		background: #333;
 		border: 0;
 		-webkit-appearance: none;
+		-webkit-user-select: none;
 
 		&:hover {
 			background: #222;
