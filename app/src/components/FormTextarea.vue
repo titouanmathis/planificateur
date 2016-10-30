@@ -19,18 +19,16 @@
 				type: String
 			}
 		},
-		data() {
-			return {
-			}
-		},
 		computed: {
 			value() {
-				return store[this.id]
+				return store.state.students
 			}
 		},
 		watch: {
 			value() {
-				console.log('value');
+				// Use a setTimeout to
+				// be sure that the value
+				// has been updated
 				setTimeout(() => {
 					autosize.update(this.$el.querySelector('textarea'))
 				}, 0);
@@ -39,10 +37,9 @@
 		methods: {
 			saveValue(e) {
 				console.log('saveValue');
-				console.log(e.target.value);
 				setTimeout(() => {
-					store.set(this.id, e.target.value.split('\n'))
-				}, 0);
+					store.commit('saveStudents', e.target.value.split('\n'))
+				}, 0)
 			},
 			onFocusIn() {
 				this.$el.classList.add('has-focus')
@@ -53,7 +50,6 @@
 		},
 		mounted() {
 			autosize(this.$el.querySelector('textarea'))
-			console.log(this);
 		}
 	}
 </script>

@@ -3,13 +3,13 @@
 		<thead>
 			<tr>
 				<th>
-					<button @click="prevMonth" class="calendar__nav calendar__nav--prev"><span>➞</span></button>
+					<button type="button" @click="prevMonth" class="calendar__nav calendar__nav--prev"><span>➞</span></button>
 				</th>
 				<th colspan="5" class="calendar__month">
 					{{ month }} {{ year }}
 				</th>
 				<th>
-					<button @click="nextMonth" class="calendar__nav calendar__nav--next"><span>➞</span></button>
+					<button type="button" @click="nextMonth" class="calendar__nav calendar__nav--next"><span>➞</span></button>
 				</th>
 			</tr>
 			<tr>
@@ -20,9 +20,9 @@
 		</thead>
 		<tbody>
 			<tr v-for="week in weeks">
-				<td v-for="day in week.days" :class="`calendar__day${!day.isInMonth ? ' calendar__day--not-in-month' : '' }`">
-					<input type="checkbox" :id="day.id" :checked="day.isChecked" @change="toggleDay">
-					<label :for="day.id"><span>{{ day.label }}</span></label>
+				<td v-for="day in week.days" :class="day.classes()">
+					<input type="checkbox" :id="day.id" :checked="day.isChecked()" @change="toggleDay">
+					<label :for="day.id"><span>{{ day.label }} {{ day.weekDayNumber }}</span></label>
 				</td>
 			</tr>
 		</tbody>
@@ -37,7 +37,6 @@
 		name: 'form-date',
 		data () {
 			return {
-				selected: [],
 				weeks: [],
 				moment: new moment()
 			}
@@ -48,6 +47,9 @@
 			}
 		},
 		computed: {
+			selected() {
+				return store.state.dates
+			},
 			weekdaysMin() {
 				return moment.weekdaysMin()
 			},
@@ -81,12 +83,7 @@
 			 * @return {void}
 			 */
 			toggleDay(e) {
-				const day = e.target.id
-				const index = this.selected.indexOf(day)
-				index < 0 && this.selected.push(day)
-				index > -1 && this.selected.splice(index, 1)
-				this.selected.sort()
-				store.set(this.id, this.selected)
+				store.commit('toggleDate', e.target.id)
 			},
 
 			/**
@@ -122,8 +119,15 @@
 						week.days.push({
 							id,
 							label: day.format('DD'),
-							isChecked: this.selected.indexOf(id) > -1,
-							isInMonth: day.isSame(this.moment, 'month')
+							classes: () => {
+								const classes = ['calendar__day']
+								if (day.day() === 0 || day.day() === 6) classes.push('calendar__day--weekend')
+								if (!day.isSame(this.moment, 'month')) classes.push('calendar__day--not-in-month')
+								return classes.join(' ')
+							},
+							isChecked() {
+								return store.state.dates.indexOf(id) > -1
+							}
 						})
 						// Go to the next day
 						_moment.add(1, 'days')
@@ -167,11 +171,7 @@
 		width: 100%;
 		text-align: center;
 		border: 1px solid #ccc;
-
-		th,
-		td {
-			vertical-align: middle;
-		}
+		user-select: none;
 	}
 
 	.calendar__month {
@@ -187,6 +187,11 @@
 		border: 0;
 		background: none;
 		color: inherit;
+
+		&:hover {
+			color: #fff;
+			-webkit-font-smoothing: antialiased;
+		}
 
 		&:focus {
 			@extend %focus;
@@ -243,6 +248,7 @@
 		label {
 			position: relative;
 			display: block;
+			user-select: none;
 
 
 			&:active {
@@ -254,7 +260,15 @@
 
 			span {
 				display: inline-block;
+				user-select: none;
 			}
+		}
+	}
+
+	.calendar__day--weekend {
+
+		label {
+			background: #f5f5f5;
 		}
 	}
 
@@ -262,11 +276,7 @@
 
 		label {
 			color: #ccc;
+			background: none;
 		}
-	}
-
-	* {
-					-webkit-font-smoothing: antialiased;
-
 	}
 </style>

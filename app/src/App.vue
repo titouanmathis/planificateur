@@ -17,7 +17,7 @@
 						<button class="w-100p" type="submit"><span>Planifier</span></button>
 					</div>
 					<div class="col col--9e m-0">
-						<button class="w-100p" @click="emptyCache" type="button"><span>Effacer</span></button>
+						<button class="w-100p" @click="emptyCache" type="submit"><span>Effacer</span></button>
 					</div>
 				</div>
 			</form>
@@ -40,20 +40,22 @@
 
 <script>
 	import store from './store'
-	import autosize from 'autosize'
 	import moment from 'moment'
-	import { forEach, shuffle, chunk, clean } from './utils'
 	import FormTextarea from './components/FormTextarea'
 	import FormDate from './components/FormDate'
 	import Scroller from './components/Scroller'
 
 	export default {
 		name: 'app',
-		data() {
-			return {
-				students: store.students,
-				dates: store.dates,
-				results: []
+		computed: {
+			students() {
+				return store.state.students
+			},
+			dates() {
+				return store.state.dates
+			},
+			results() {
+				return store.state.results
 			}
 		},
 		components: {
@@ -61,49 +63,15 @@
 			FormDate,
 			Scroller
 		},
-		mounted() {
-			this.onSubmit()
+		created() {
+			store.commit('getResults')
 		},
 		methods: {
 			onSubmit() {
-
-				// Clear the results
-				this.results = []
-
-				this.students = store.get('students')
-				this.dates = store.get('dates')
-
-				// Create chunks
-				const cleanedStudents = clean(this.students)
-				const cleanedDates = clean(this.dates)
-				const chunkLength = Math.ceil(cleanedStudents.length / cleanedDates.length)
-				const temp = chunk(shuffle(cleanedStudents), chunkLength)
-
-				// Format result
-				forEach(cleanedDates, (date, i) => {
-					this.results.push({
-						date: moment(date).format('dddd DD MMMM'),
-						students: temp[i]
-					})
-				})
-
-				// Update store
-				store.set('students', this.students)
-				store.set('dates', this.dates)
+				store.commit('getResults')
 			},
 			emptyCache() {
-				store.set('students', [])
-				store.set('dates', [])
-				const txts = this.$el.querySelectorAll('textarea')
-				forEach(txts, (txt) => {
-					txt.value = ''
-				})
-				const inputs = this.$el.querySelectorAll('input[type="checkbox"]')
-				forEach(inputs, (input) => {
-					input.checked = false
-				})
-				setTimeout(() => autosize.update(txts), 10);
-				this.onSubmit()
+				store.commit('emptyCache')
 			}
 		}
 	}
