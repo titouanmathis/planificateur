@@ -1,42 +1,45 @@
 <template>
-	<div class="scroller d-f">
-		<div class="scroller__inner w-100p mxh-100p">
-			<textarea rows="1" :id="id" @keyup="onKeyup" @focusin="onFocusIn" @focusout="onFocusOut" :value="value.join('\n')"></textarea>
-		</div>
-	</div>
+	<scroller class="textarea">
+		<textarea rows="1" :id="id" @keyup="saveValue" @paste="saveValue" @focusin="onFocusIn" @focusout="onFocusOut" :value="value.join('\n')"></textarea>
+	</scroller>
 </template>
 
 <script>
+	import Scroller from './Scroller'
 	import autosize from 'autosize'
 	import store from '../store'
 
 	export default {
 		name: 'form-textarea',
+		components: {
+			Scroller
+		},
 		props: {
 			id: {
 				type: String
 			}
 		},
-		data() {
-			return {
-			}
-		},
 		computed: {
 			value() {
-				return store[this.id]
+				return store.state.students
 			}
 		},
 		watch: {
 			value() {
-				console.log('value');
+				// Use a setTimeout to
+				// be sure that the value
+				// has been updated
 				setTimeout(() => {
 					autosize.update(this.$el.querySelector('textarea'))
 				}, 0);
 			}
 		},
 		methods: {
-			onKeyup(e) {
-				store.set(this.id, e.target.value.split('\n'))
+			saveValue(e) {
+				console.log('saveValue');
+				setTimeout(() => {
+					store.commit('saveStudents', e.target.value.split('\n'))
+				}, 0)
 			},
 			onFocusIn() {
 				this.$el.classList.add('has-focus')
@@ -47,33 +50,13 @@
 		},
 		mounted() {
 			autosize(this.$el.querySelector('textarea'))
-			console.log(this);
 		}
 	}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-	@mixin scrollbar($scrollbar-thickness: 12px, $thumb-thickness: 4px, $bg-track: #fff, $bg-thumb: #555) {
-
-		&::-webkit-scrollbar {
-			width: $scrollbar-thickness;
-			height: $scrollbar-thickness;
-		}
-
-		&::-webkit-scrollbar-track {
-			background: $bg-track;
-		}
-
-		&::-webkit-scrollbar-thumb {
-			background: $bg-thumb;
-			border: ($scrollbar-thickness - $thumb-thickness) / 2 solid $bg-track;
-		}
-	}
-
-
-	.scroller {
-		position: relative;
+	.textarea {
 
 		&:before {
 			content: "";
@@ -96,21 +79,6 @@
 				border-color: lighten(blue, 20%);
 			}
 		}
-	}
-
-	.scroller--no-bd {
-
-		&:before {
-			display: none;
-		}
-	}
-
-	.scroller__inner {
-		position: relative;
-		overflow-x: hidden;
-		overflow-y: auto;
-
-		@include scrollbar
 	}
 
 	textarea {

@@ -9,7 +9,7 @@
 					</div>
 					<div class="col col--18e d-f fxd-c">
 						<b>Dates</b>
-						<form-textarea id="dates"></form-textarea>
+						<form-date id="dates"></form-date>
 					</div>
 				</div>
 				<div class="row pdt-2e">
@@ -17,86 +17,61 @@
 						<button class="w-100p" type="submit"><span>Planifier</span></button>
 					</div>
 					<div class="col col--9e m-0">
-						<button class="w-100p" @click="emptyCache" type="button"><span>Effacer</span></button>
+						<button class="w-100p" @click="emptyCache" type="submit"><span>Effacer</span></button>
 					</div>
 				</div>
 			</form>
 		</div>
 		<div class="results col h-100p">
-			<div class="scroller scroller--no-bd d-f h-100p">
-				<div class="scroller__inner mxh-100p">
-					<div class="row flex flex--wrap pdt-2e">
-						<p v-for="(result, index) of results" class="results__item col col--18e" v-bind:key="index">
-							<b class="results__date">{{ result.date }}</b>
-							<ul class="results__students" v-if="result.students">
-								<li v-for="student in result.students">{{ student }}</li>
-							</ul>
-							<i v-if="!result.students">Tout le monde est casé !</i>
-						</p>
-					</div>
+			<scroller class="h-100p">
+				<div class="row flex flex--wrap pdt-2e">
+					<p v-for="(result, index) of results" class="results__item col col--18e" v-bind:key="index">
+						<b class="results__date">{{ result.date }}</b>
+						<ul class="results__students" v-if="result.students">
+							<li v-for="student in result.students">{{ student }}</li>
+						</ul>
+						<i v-if="!result.students">Tout le monde est casé !</i>
+					</p>
 				</div>
-			</div>
+			</scroller>
 		</div>
 	</div>
 </template>
 
 <script>
 	import store from './store'
-	import autosize from 'autosize'
-	import { forEach, shuffle, chunk, clean } from './utils'
-	import FormTextarea from './components/FormTextarea';
+	import moment from 'moment'
+	import FormTextarea from './components/FormTextarea'
+	import FormDate from './components/FormDate'
+	import Scroller from './components/Scroller'
 
 	export default {
 		name: 'app',
-		data() {
-			return {
-				students: store.students,
-				dates: store.dates,
-				results: []
+		computed: {
+			students() {
+				return store.state.students
+			},
+			dates() {
+				return store.state.dates
+			},
+			results() {
+				return store.state.results
 			}
 		},
 		components: {
 			FormTextarea,
+			FormDate,
+			Scroller
 		},
-		mounted() {
-			this.onSubmit()
+		created() {
+			store.commit('getResults')
 		},
 		methods: {
 			onSubmit() {
-
-				// Clear the results
-				this.results = []
-
-				this.students = store.get('students')
-				this.dates = store.get('dates')
-
-				// Create chunks
-				const cleanedStudents = clean(this.students)
-				const cleanedDates = clean(this.dates)
-				const chunkLength = Math.ceil(cleanedStudents.length / cleanedDates.length)
-				const temp = chunk(shuffle(cleanedStudents), chunkLength)
-
-				// Format result
-				forEach(cleanedDates, (date, i) => {
-					this.results.push({
-						date: date,
-						students: temp[i]
-					})
-				})
-
-				// Update store
-				store.set('students', this.students)
-				store.set('dates', this.dates)
+				store.commit('getResults')
 			},
 			emptyCache() {
-				store.set('students', [])
-				store.set('dates', [])
-				const txts = this.$el.querySelectorAll('textarea')
-				forEach(txts, (txt) => {
-					txt.value = ''
-				})
-				setTimeout(() => autosize.update(txts), 10);
-				this.onSubmit()
+				store.commit('emptyCache')
 			}
 		}
 	}
@@ -264,6 +239,10 @@
 
 	.results__item {
 		margin-bottom: 4em;
+	}
+
+	.results__date {
+		text-transform: capitalize;
 	}
 
 	.results__students {
