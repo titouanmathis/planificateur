@@ -87,6 +87,12 @@
 		box-sizing: border-box;
 	}
 
+	::selection {
+		text-shadow: none;
+		color: #fff;
+		background: #3b99fc;
+	}
+
 	html,
 	body {
 		width: 100%;
