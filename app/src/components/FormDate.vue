@@ -33,6 +33,9 @@
 	import store from '../store'
 	import moment from 'moment'
 
+	// Set the locale to FR
+	moment.locale('fr')
+
 	export default {
 		name: 'form-date',
 		data () {
@@ -51,7 +54,9 @@
 				return store.state.dates
 			},
 			weekdaysMin() {
-				return moment.weekdaysMin()
+				const weekdays = moment.weekdaysMin()
+				weekdays.push(weekdays.shift())
+				return weekdays
 			},
 			year() {
 				return this.moment.format('YYYY')
@@ -137,16 +142,6 @@
 		},
 		watch: {
 			moment: 'setMonth'
-		},
-		beforeCreate() {
-			// Set the locale to FR
-			moment.locale('fr')
-			// Update the week days order
-			moment.updateLocale('fr', {
-				weekdays: 'Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi_Dimanche'.split('_'),
-				weekdaysShort: 'Lun._Mar._Mer._Jeu._Ven._Sam._Dim.'.split('_'),
-				weekdaysMin: 'Lu_Ma_Me_Je_Ve_Sa_Di'.split('_'),
-			})
 		},
 		created() {
 			// Set the calendar
