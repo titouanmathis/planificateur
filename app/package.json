@@ -12,5 +12,6 @@
     "vuex": "^2.0.0"
   },
   "devDependencies": {},
-  "author": "Titouan <titouan.mathis@gmail.com>"
+  "author": "Titouan Mathis",
+  "license": "Beerware"
 }
