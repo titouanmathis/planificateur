@@ -113,6 +113,7 @@
 		background: #333;
 		border: 0;
 		-webkit-appearance: none;
+		-webkit-user-select: none;
 
 		&:hover {
 			background: #222;
